@@ -1,0 +1,54 @@
+// 主应用模块
+android_app {
+    name: "RemoteManagerApp",
+    srcs: [
+        "src/**/*.java",
+    ],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    privileged: true,
+    platform_apis: true,
+    static_libs: [
+        "grpc-java-lite",
+        "grpc-okhttp",
+        "grpc-protobuf-lite", 
+        "grpc-stub",
+        "protobuf-java-lite",
+        "netty-common",
+        "netty-handler",
+        "netty-codec-http2",
+        "remote-manager-proto",
+    ],
+    libs: [
+        "android.framework-car",
+    ],
+    aidl: {
+        include_dirs: ["aidl"],
+    },
+    overrides: [],
+    required: ["privapp_whitelist_com.android.car.remotemanager"],
+    sdk_version: "core_platform",
+}
+
+// Proto文件模块
+java_library_static {
+    name: "remote-manager-proto",
+    srcs: ["src/proto/remote_manager.proto"],
+    proto: {
+        type: "lite",
+    },
+    static_libs: [
+        "protobuf-java-lite",
+        "grpc-java-lite",
+        "grpc-stub",
+    ],
+    sdk_version: "core_platform",
+}
+
+filegroup {
+    name: "remote_manager_config",
+    srcs: [
+        "remote_manager.rc", 
+        "AndroidManifest.xml",
+    ],
+}

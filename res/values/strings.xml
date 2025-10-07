@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Remote Manager</string>
+    <string name="service_label">Remote Manager Service</string>
+</resources>

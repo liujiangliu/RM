@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.android.car.remotemanager"
+    coreApp="true">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_BIOMETRIC" />
+    <uses-permission android:name="android.car.permission.CAR_THERMAL_SERVICE" />
+
+    <application
+        android:allowBackup="false"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@android:style/Theme.DeviceDefault">
+
+        <service
+            android:name=".RapaServer"
+            android:enabled="true"
+            android:exported="true"
+            android:isolatedProcess="false">
+            <intent-filter>
+                <action android:name="com.android.car.remotemanager.IRapaServer" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".TokenMasterService"
+            android:enabled="true"
+            android:exported="true"
+            android:isolatedProcess="false">
+            <intent-filter>
+                <action android:name="com.android.car.remotemanager.ITokenMasterService" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".GrpcServerService"
+            android:enabled="true"
+            android:exported="false" />
+
+    </application>
+</manifest>

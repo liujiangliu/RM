@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+option java_package = "com.android.car.remotemanager";
+option java_multiple_files = true;
+option java_outer_classname = "RemoteManagerProto";
+
+service RemoteManagerService {
+    rpc RequestPairing(PairingRequest) returns (PairingResponse);
+    rpc RequestToken(TokenRequest) returns (TokenResponse);
+    rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse);
+}
+
+message PairingRequest {
+    string device_name = 1;
+    string app_type = 2;
+    string source = 3;
+    string mac_addr = 4;
+    string client_id = 5;
+    string pin_hash = 6;
+    string client_name = 7;
+    string scopes = 8;
+}
+
+message PairingResponse {
+    string status = 1;
+    string client_secret = 2;
+    string message = 3;
+    string token = 4;
+    int64 expires_at = 5;
+}
+
+message TokenRequest {
+    string client_id = 1;
+    string client_secret = 2;
+    string scopes = 3;
+}
+
+message TokenResponse {
+    string status = 1;
+    string token = 2;
+    string message = 3;
+    int64 expires_at = 4;
+    string token_type = 5;
+    string scope = 6;
+}
+
+message ValidateTokenRequest {
+    string token = 1;
+    string required_scope = 2;
+}
+
+message ValidateTokenResponse {
+    bool valid = 1;
+    string client_id = 2;
+    string scope = 3;
+    int64 expires_at = 4;
+    string message = 5;
+}

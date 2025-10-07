@@ -1,0 +1,6 @@
+// Proto文件配置
+filegroup {
+    name: "remote_manager_proto_src",
+    srcs: ["remote_manager.proto"],
+    path: "src/proto",
+}

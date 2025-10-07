@@ -1,0 +1,9 @@
+service remote_manager /system/bin/app_process64 -Xshare:off \
+    /system/app/RemoteManagerApp/RemoteManagerApp.jar \
+    com.android.car.remotemanager.RemoteManagerApplication
+    class main
+    user system
+    group system
+    capabilities NET_BIND_SERVICE
+    seclabel u:r:remote_manager:s0
+    oneshot
