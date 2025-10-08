@@ -4,6 +4,9 @@ import android.util.Log;
 
 import java.util.Base64;
 
+import javax.crypto.Mac;
+import javax.crypto.SecretKey;
+
 /**
  * JWT Token信息类，包含完整的JWT token元数据
  */
@@ -53,20 +56,19 @@ public class JwtTokenInfo {
     /**
      * 验证JWT签名
      */
-    public boolean verifySignature(String secret) {
+    public boolean verifySignature(SecretKey key) {
         try {
             String[] parts = token.split("\\.");
-            if (parts.length != 3) {
-                return false;
-            }
+            if (parts.length != 3) return false;
             
             String signingInput = parts[0] + "." + parts[1];
-            String expectedSignature = generateHmacSignature(signingInput, secret);
-            String actualSignature = new String(Base64.getUrlDecoder().decode(parts[2]));
-            
-            return expectedSignature.equals(actualSignature);
+            Mac mac = Mac.getInstance("HmacSHA256");
+            mac.init(key);
+            byte[] signature = mac.doFinal(signingInput.getBytes());
+            String calculatedSignature = Base64.getUrlEncoder().withoutPadding().encodeToString(signature);
+            return calculatedSignature.equals(parts[2]);
         } catch (Exception e) {
-            Log.e(TAG, "JWT signature verification failed", e);
+            Log.e(TAG, "Signature verification failed", e);
             return false;
         }
     }
